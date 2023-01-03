@@ -1,21 +1,26 @@
 #!/bin/sh
 
-until mysqladmin --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --host=mariadb ping; do
-	sleep 2
-done
-
+echo "COUCOU"
 if [ ! -f /var/www/html/wp-config.php ]; then
+
+	cd /var/www/html
+
+	wp core download --allow-root
+
+	until mysqladmin --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --host=mariadb ping; do
+		sleep 2
+	done
 
 	echo "Creation d'un fichier de configuration Wordpress avec User Mysql"
 	wp config create	--dbname=${MYSQL_DATABASE} \
 						--dbuser=${MYSQL_USER} \
 						--dbpass=${MYSQL_PASSWORD} \
-						--dbhost=mariadb \
+						--dbhost=mariadb:3306 \
 						--allow-root
 	echo "OK"
 
 	echo "Installation de Wordpress "
-	wp core install		--url=${DOMAIN_NAME} \
+	wp core install		--url=localhost \
 						--title="Inception" \
 						--admin_user=${WP_ADMIN_LOGIN} \
 						--admin_password=${WP_ADMIN_PASSWORD} \
@@ -38,7 +43,7 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 
 fi;
 
-exec "$@"
+# exec "$@"
 
-# echo "Starting PHP-FPM..."
-# exec php-fpm7 -F -R
+echo "Starting PHP-FPM..."
+exec php-fpm7 -F -R
