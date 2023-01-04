@@ -1,0 +1,84 @@
+version: '3'
+
+services:
+
+# ************************MARIA DB************************ #
+
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    container_name: "mariadb"
+    env_file:
+        - .env
+    ports:
+     - "127.0.0.1:3306:3306"
+    # Named volumes: host_volume_name:path/inside/the/container
+    volumes:
+      - mariadb_volume:/var/lib/mysql
+    networks:
+      - inception
+    restart: on-failure
+
+# ***********************WORDPRESS************************ #
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    container_name: "wordpress"
+    depends_on:
+      - mariadb
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:9000:9000"
+    volumes:
+      - wordpress_volume:/var/www/html
+    networks:
+      - inception
+    restart: on-failure
+
+# *************************NGINX************************** #
+
+  nginx:
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+    container_name: "nginx"
+    depends_on:
+      - wordpress
+    env_file:
+      - .env
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress_volume:/var/www/html
+    networks:
+      - inception
+    restart: on-failure
+
+# *************************NETWORKS************************* #
+
+networks:
+  inception:
+    driver: bridge
+
+
+# *************************VOLUME************************* #
+
+# Creation of external named volumes
+volumes:
+  mariadb_volume:
+    driver: local # = default volume driver on linux
+    driver_opts:
+      type: none
+      device: /home/mbascuna/data/mariadb_volume
+      o: bind
+
+  wordpress_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/mbascuna/data/wordpress_volume
+      o: bind

@@ -15,7 +15,7 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 	wp config create	--dbname=${MYSQL_DATABASE} \
 						--dbuser=${MYSQL_USER} \
 						--dbpass=${MYSQL_PASSWORD} \
-						--dbhost=mariadb:3306 \
+						--dbhost=mariadb \
 						--allow-root
 	echo "OK"
 
@@ -43,7 +43,7 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 
 fi;
 
-# exec "$@"
 
 echo "Starting PHP-FPM..."
-exec php-fpm7 -F -R
+exec "$@"
+# exec php-fpm7.3 -F -R

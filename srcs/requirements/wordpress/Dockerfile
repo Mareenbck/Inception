@@ -26,17 +26,13 @@ RUN		curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cl
 # Copier le fichier de configuration
 COPY	./conf/php.conf /etc/php/7.3/fpm/pool.d/www.conf
 
-# # Aller dans le dossier pour wordpress et telecharger wordpress
-# RUN		cd /var/www/html && wp core download --allow-root
-# RUN		chown -R root:root /var/www/html
 COPY	tools/init.sh /init.sh
-# COPY 	tools/init.sh /usr/local/bin/
 EXPOSE	9000
 
 ENTRYPOINT ["bash", "init.sh"]
 
 # Command launched at the end of the setup
-# CMD ["php-fpm7.3", "-F"]
+CMD ["php-fpm7.3", "-F"]
 # php-fpm7.3 [--help]
 # -F, --nodaemonize 			: force to stay in foreground and ignore daemonize option from config file
 # -R, --allow-to-run-as-root	: Allow pool to run as root (disabled by default)
