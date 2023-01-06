@@ -13,7 +13,6 @@ services:
         - .env
     ports:
      - "127.0.0.1:3306:3306"
-    # Named volumes: host_volume_name:path/inside/the/container
     volumes:
       - mariadb_volume:/var/lib/mysql
     networks:
@@ -35,6 +34,7 @@ services:
       - "127.0.0.1:9000:9000"
     volumes:
       - wordpress_volume:/var/www/html
+      # - ./themes:/var/www/html/wp-content/themes
     networks:
       - inception
     restart: on-failure

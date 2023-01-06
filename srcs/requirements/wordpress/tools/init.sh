@@ -1,11 +1,10 @@
 #!/bin/sh
-
-echo "COUCOU"
 if [ ! -f /var/www/html/wp-config.php ]; then
-
 	cd /var/www/html
 
 	wp core download --allow-root
+	# wp core download --force --allow-root
+
 
 	until mysqladmin --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --host=mariadb ping; do
 		sleep 2
@@ -15,12 +14,12 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 	wp config create	--dbname=${MYSQL_DATABASE} \
 						--dbuser=${MYSQL_USER} \
 						--dbpass=${MYSQL_PASSWORD} \
-						--dbhost=mariadb \
+						--dbhost=mariadb:3306 \
 						--allow-root
 	echo "OK"
 
 	echo "Installation de Wordpress "
-	wp core install		--url=localhost \
+	wp core install		--url=mbascuna.42.fr \
 						--title="Inception" \
 						--admin_user=${WP_ADMIN_LOGIN} \
 						--admin_password=${WP_ADMIN_PASSWORD} \
@@ -37,9 +36,10 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 	echo "OK"
 
 	echo "Installation du theme"
-	wp theme install astra --activate --allow-root
+	# wp theme install the-bootstrap-blog --activate --allow-root
+	wp theme install twentytwentyone --activate --allow-root
+	# wp theme install astra --activate --allow-root
 	echo "OK"
-	# wp theme install twentytwentyone --activate
 
 fi;
 
