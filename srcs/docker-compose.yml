@@ -34,7 +34,6 @@ services:
       - "127.0.0.1:9000:9000"
     volumes:
       - wordpress_volume:/var/www/html
-      # - ./themes:/var/www/html/wp-content/themes
     networks:
       - inception
     restart: on-failure
