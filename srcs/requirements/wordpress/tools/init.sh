@@ -1,11 +1,9 @@
 #!/bin/sh
-# rm -f /var/www/html/wp-config.php
+
 if [ ! -f /var/www/html/wp-config.php ]; then
 	cd /var/www/html
 
 	wp core download --allow-root
-	# wp core download --force --allow-root
-
 
 	until mysqladmin --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --host=mariadb ping; do
 		sleep 2
@@ -37,14 +35,11 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 	echo "OK"
 
 	echo "Installation du theme"
-	# wp theme install the-bootstrap-blog --activate --allow-root
 	wp theme install twentytwentyone --activate --allow-root
-	# wp theme install astra --activate --allow-root
 	echo "OK"
 
 fi;
 
-
 echo "Starting PHP-FPM..."
 exec "$@"
-# exec php-fpm7.3 -F -R
+

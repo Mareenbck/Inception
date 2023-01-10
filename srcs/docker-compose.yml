@@ -11,8 +11,6 @@ services:
     container_name: "mariadb"
     env_file:
         - .env
-    # ports:
-    #  - "127.0.0.1:3306:3306"
     volumes:
       - mariadb_volume:/var/lib/mysql
     networks:
@@ -30,8 +28,6 @@ services:
       - mariadb
     env_file:
       - .env
-    # ports:
-    #   - "127.0.0.1:9000:9000"
     volumes:
       - wordpress_volume:/var/www/html
     networks:
@@ -66,10 +62,9 @@ networks:
 
 # *************************VOLUME************************* #
 
-# Creation of external named volumes
 volumes:
   mariadb_volume:
-    driver: local # = default volume driver on linux
+    driver: local
     driver_opts:
       type: none
       device: /home/mbascuna/data/mariadb_volume
