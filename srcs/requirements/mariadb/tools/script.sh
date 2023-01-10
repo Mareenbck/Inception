@@ -5,14 +5,11 @@ then
 
 	echo "Starting temporary server..."
 	cd '/usr' ; /usr/bin/mysqld_safe --datadir=/var/lib/mysql &
-	# mysqld &
-	# while ! mysqladmin ping -hlocalhost &>/dev/null; do
-	# 	sleep 2
-  	# done
-	# sleep 3
+
 	until mysqladmin ping 2> /dev/null; do
 		sleep 2
 	done
+	
 	echo "Creation de la database Wordpress..."
 	mysql -u root <<- _EOF_
 		CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};

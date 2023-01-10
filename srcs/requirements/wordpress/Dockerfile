@@ -1,19 +1,20 @@
 FROM	debian:buster
 
+ARG		PHP_VERSION=7.3
 RUN		apt-get update -y && apt-get upgrade -y
 RUN 	apt-get -y install curl \
 		#pour utiliser mysqladmin
 		mariadb-client \
 		#php pour utiliser wordpress
-		php7.3 \
-		php7.3-fpm \
-		php7.3-curl \
-		php7.3-mysql \
-		php7.3-mbstring \
-		php7.3-xml \
-		php7.3-zip \
-		php7.3-gd \
-		php7.3-imap
+		php${PHP_VERSION} \
+		php${PHP_VERSION}-fpm \
+		php${PHP_VERSION}-curl \
+		php${PHP_VERSION}-mysql \
+		php${PHP_VERSION}-mbstring \
+		php${PHP_VERSION}-xml \
+		php${PHP_VERSION}-zip \
+		php${PHP_VERSION}-gd \
+		php${PHP_VERSION}-imap
 
 #creer dossier qui permet a wordpress et php de se lancer
 RUN		mkdir -p /var/www/html ; mkdir -p /run/php

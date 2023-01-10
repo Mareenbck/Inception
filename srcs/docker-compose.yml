@@ -11,8 +11,8 @@ services:
     container_name: "mariadb"
     env_file:
         - .env
-    ports:
-     - "127.0.0.1:3306:3306"
+    # ports:
+    #  - "127.0.0.1:3306:3306"
     volumes:
       - mariadb_volume:/var/lib/mysql
     networks:
@@ -30,8 +30,8 @@ services:
       - mariadb
     env_file:
       - .env
-    ports:
-      - "127.0.0.1:9000:9000"
+    # ports:
+    #   - "127.0.0.1:9000:9000"
     volumes:
       - wordpress_volume:/var/www/html
     networks:
