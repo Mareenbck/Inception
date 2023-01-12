@@ -8,13 +8,12 @@ WORDPRESS_DOCKER_VOLUME	= srcs_wordpress_volume
 
 all:	inception
 
-${NAME}: build up
+${NAME}: volume build up
 
 build:
 		docker-compose -f $(DOCKER_COMPOSE_FILE) build
 
 volume:
-		sudo rm -rf $(HOME)/data
 		sudo mkdir -p $(DATABASE_VOLUME)
 		sudo mkdir -p $(WORDPRESS_VOLUME)
 
@@ -31,8 +30,7 @@ clean:	down
 		docker container prune --force
 
 fclean:	clean
-		sudo rm -rf $(DATABASE_VOLUME)
-		sudo rm -rf $(WORDPRESS_VOLUME)
+		sudo rm -rf $(HOME)/data
 		docker system prune --all --force --volumes
 		docker network prune --force
 		docker volume prune --force
